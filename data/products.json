@@ -1,0 +1,80 @@
+[
+  {
+    "id": "1",
+    "name": "Cabelo Premium 01",
+    "description": "100% humano, selecionado e de alta qualidade. Comprimento: 60cm. Peso: 90g.",
+    "price": 1200,
+    "image": "/cabelos/cabelo-01.png",
+    "length": "60cm",
+    "peso": "90g",
+    "type": "Mega Hair",
+    "featured": true,
+    "order": 0,
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2",
+    "name": "Cabelo Premium 02",
+    "description": "100% humano, selecionado e de alta qualidade. Comprimento: 60cm. Peso: 90g.",
+    "price": 1200,
+    "image": "/cabelos/cabelo-02.png",
+    "length": "60cm",
+    "peso": "90g",
+    "type": "Mega Hair",
+    "featured": true,
+    "order": 1,
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3",
+    "name": "Cabelo Premium 03",
+    "description": "100% humano, selecionado e de alta qualidade. Comprimento: 60cm. Peso: 90g.",
+    "price": 1200,
+    "image": "/cabelos/cabelo-03.png",
+    "length": "60cm",
+    "peso": "90g",
+    "type": "Mega Hair",
+    "featured": false,
+    "order": 2,
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4",
+    "name": "Cabelo Premium 04",
+    "description": "100% humano, selecionado e de alta qualidade. Comprimento: 60cm. Peso: 90g.",
+    "price": 1200,
+    "image": "/cabelos/cabelo-04.png",
+    "length": "60cm",
+    "peso": "90g",
+    "type": "Mega Hair",
+    "featured": false,
+    "order": 3,
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5",
+    "name": "Cabelo Premium 05",
+    "description": "100% humano, selecionado e de alta qualidade. Comprimento: 60cm. Peso: 90g.",
+    "price": 1200,
+    "image": "/cabelos/cabelo-05.png",
+    "length": "60cm",
+    "peso": "90g",
+    "type": "Mega Hair",
+    "featured": false,
+    "order": 4,
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6",
+    "name": "Cabelo Premium 06",
+    "description": "100% humano, selecionado e de alta qualidade. Comprimento: 60cm. Peso: 90g.",
+    "price": 1200,
+    "image": "/cabelos/cabelo-06.png",
+    "length": "60cm",
+    "peso": "90g",
+    "type": "Mega Hair",
+    "featured": false,
+    "order": 5,
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  }
+]

@@ -1,0 +1,166 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+:root {
+  --font-playfair: 'Playfair Display', Georgia, serif;
+  --font-inter: 'Inter', system-ui, sans-serif;
+  /* Paleta DARK LUXURY – Lolla Toledo */
+  --borgonha: #4A0E1F;
+  --marsala-escuro: #611726;
+  --vinho-luxo: #7B2433;
+  --chocolate: #3B1F1A;
+  --cafe-intenso: #1E1412;
+  --preto-quente: #0B0908;
+  --cobre-escuro: #A55B35;
+  --caramelo-gold: #C98A48;
+  --ambar: #E2B07E;
+  --text-amber-alt: #DCC7B2;
+}
+
+@layer base {
+  * {
+    @apply border-[#7B2433]/30;
+  }
+  body {
+    @apply bg-[#1E1412] text-[#E2B07E] antialiased;
+    font-family: var(--font-inter);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-playfair);
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .font-playfair { font-family: var(--font-playfair); }
+  .font-inter { font-family: var(--font-inter); }
+  .text-borgonha { color: #4A0E1F; }
+  .text-marsala-escuro { color: #611726; }
+  .text-vinho { color: #7B2433; }
+  .text-cobre-escuro { color: #A55B35; }
+  .text-caramelo-gold { color: #C98A48; }
+  .text-ambar { color: #E2B07E; }
+  .bg-cafe { background-color: #1E1412; }
+  .bg-preto-quente { background-color: #0B0908; }
+  .bg-chocolate { background-color: #3B1F1A; }
+  .bg-cobre-escuro { background-color: #A55B35; }
+  .border-vinho { border-color: #7B2433; }
+  .border-cobre-escuro { border-color: #A55B35; }
+  .shadow-dark-warm {
+    box-shadow: 0 8px 32px rgba(30, 20, 18, 0.5), 0 0 0 1px rgba(123, 36, 51, 0.25);
+  }
+  .shadow-dark-warm-lg {
+    box-shadow: 0 24px 48px rgba(11, 9, 8, 0.6), 0 0 0 1px rgba(123, 36, 51, 0.3);
+  }
+  .shadow-btn-glow {
+    box-shadow: 0 0 24px rgba(201, 138, 72, 0.35), 0 4px 20px rgba(165, 91, 53, 0.4);
+  }
+  .shadow-lead-frame {
+    box-shadow: 0 0 0 2px #7B2433, 0 0 40px rgba(201, 138, 72, 0.2), 0 20px 60px rgba(11, 9, 8, 0.5);
+  }
+}
+
+/* Soft texture overlay */
+.bg-soft-texture {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+/* Animações premium */
+.animate-fade-up {
+  animation: fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-left {
+  animation: fadeLeft 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fadeLeft {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-fade-right {
+  animation: fadeRight 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fadeRight {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-zoom-in {
+  animation: zoomIn 1.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes zoomIn {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-fade-left,
+  .animate-fade-right,
+  .animate-zoom-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+html.reveal-ready .reveal {
+  opacity: 0;
+  transform: translateY(36px);
+}
+html.reveal-ready .reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Botão DARK LUXURY – Cobre Escuro, hover Caramelo Gold + glow */
+.btn-premium {
+  transition: background 0.35s ease, box-shadow 0.4s ease, transform 0.2s ease, color 0.2s ease;
+  background-color: #A55B35;
+  color: #0B0908;
+}
+.btn-premium:hover {
+  background-color: #C98A48;
+  box-shadow: 0 0 28px rgba(201, 138, 72, 0.4), 0 6px 24px rgba(165, 91, 53, 0.35);
+  transform: translateY(-1px);
+}
+.btn-premium:active {
+  transform: scale(0.98);
+}
+
+/* Transição suave entre seções */
+.section-fade {
+  animation: sectionFade 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes sectionFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.parallax-layer { will-change: transform; }
+
+html { scroll-behavior: smooth; }
+
+::selection {
+  background: rgba(201, 138, 72, 0.35);
+  color: #0B0908;
+}

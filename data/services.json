@@ -1,0 +1,29 @@
+[
+  {
+    "id": "1",
+    "name": "Aplicação Mega Hair",
+    "description": "Aplicação completa de mega hair com fios premium, garantindo naturalidade e durabilidade.",
+    "price": 0,
+    "duration": "4-6h",
+    "order": 0,
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2",
+    "name": "Manutenção Mega Hair",
+    "description": "Manutenção periódica para manter os fios impecáveis e prolongar a durabilidade.",
+    "price": 0,
+    "duration": "2-3h",
+    "order": 1,
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3",
+    "name": "Avaliação e Consulta",
+    "description": "Consulta personalizada para análise do seu cabelo e definição do melhor tipo de mega hair.",
+    "price": 0,
+    "duration": "1h",
+    "order": 2,
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  }
+]
