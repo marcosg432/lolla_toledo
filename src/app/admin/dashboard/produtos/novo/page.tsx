@@ -15,9 +15,12 @@ export default function NovoProdutoPage() {
   const [price, setPrice] = useState("");
   const [image, setImage] = useState("");
   const [length, setLength] = useState("");
+  const [peso, setPeso] = useState("");
   const [color, setColor] = useState("");
   const [type, setType] = useState("");
   const [featured, setFeatured] = useState(false);
+  const [estoque, setEstoque] = useState("0");
+  const [ativo, setAtivo] = useState(true);
   const [saving, setSaving] = useState(false);
 
   const submit = async (e: React.FormEvent) => {
@@ -34,9 +37,12 @@ export default function NovoProdutoPage() {
           price: price ? Number(price) : 0,
           image,
           length: length || undefined,
+          peso: peso || undefined,
           color: color || undefined,
           type: type || undefined,
           featured,
+          estoque: estoque ? Number(estoque) : 0,
+          ativo,
           order: 0,
         }),
       });
@@ -84,11 +90,17 @@ export default function NovoProdutoPage() {
                 <Input value={image} onChange={(e) => setImage(e.target.value)} placeholder="https://..." className="bg-zinc-800 border-zinc-700" />
               </div>
             </div>
-            <div className="grid gap-4 sm:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Comprimento</Label>
                 <Input value={length} onChange={(e) => setLength(e.target.value)} placeholder="ex: 40cm" className="bg-zinc-800 border-zinc-700" />
               </div>
+              <div className="space-y-2">
+                <Label>Peso</Label>
+                <Input value={peso} onChange={(e) => setPeso(e.target.value)} placeholder="ex: 90g" className="bg-zinc-800 border-zinc-700" />
+              </div>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Cor</Label>
                 <Input value={color} onChange={(e) => setColor(e.target.value)} placeholder="ex: 1B" className="bg-zinc-800 border-zinc-700" />
@@ -98,10 +110,28 @@ export default function NovoProdutoPage() {
                 <Input value={type} onChange={(e) => setType(e.target.value)} placeholder="ex: Mega Hair" className="bg-zinc-800 border-zinc-700" />
               </div>
             </div>
-            <label className="flex items-center gap-2">
-              <input type="checkbox" checked={featured} onChange={(e) => setFeatured(e.target.checked)} className="rounded border-zinc-600" />
-              <span className="text-sm text-zinc-300">Destaque na home</span>
-            </label>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label>Quantidade em estoque</Label>
+                <Input
+                  type="number"
+                  min="0"
+                  value={estoque}
+                  onChange={(e) => setEstoque(e.target.value)}
+                  className="bg-zinc-800 border-zinc-700"
+                />
+              </div>
+            </div>
+            <div className="space-y-3">
+              <label className="flex items-center gap-2">
+                <input type="checkbox" checked={featured} onChange={(e) => setFeatured(e.target.checked)} className="rounded border-zinc-600" />
+                <span className="text-sm text-zinc-300">Destaque na home</span>
+              </label>
+              <label className="flex items-center gap-2">
+                <input type="checkbox" checked={ativo} onChange={(e) => setAtivo(e.target.checked)} className="rounded border-zinc-600" />
+                <span className="text-sm text-zinc-300">Produto ativo (disponível)</span>
+              </label>
+            </div>
             <div className="flex gap-2">
               <Button type="submit" disabled={saving}>{saving ? "Salvando…" : "Salvar"}</Button>
               <Button type="button" variant="outline" asChild>

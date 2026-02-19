@@ -1,0 +1,9 @@
+[
+  {
+    "id": "1",
+    "email": "admin@lollatoledo.com",
+    "passwordHash": "$2a$10$6b0U2WLc8/clY5P5axlXR.DbUyO8sgSopDtF5mzbeF/MIrkQXM9tq",
+    "name": "Admin",
+    "createdAt": "2026-02-19T02:57:57.705Z"
+  }
+]

@@ -1,10 +1,22 @@
 import Image from "next/image";
 import { db } from "@/lib/db";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
+import { unstable_noStore } from "next/cache";
 
 export async function HomeBeforeAfter() {
+  unstable_noStore(); // Forçar leitura sem cache
   const raw = db.beforeAfter();
   const items = Array.isArray(raw) ? [...raw].sort((a, b) => (a?.order ?? 0) - (b?.order ?? 0)) : [];
+  
+  // Debug: verificar dados carregados
+  if (items.length > 0 && process.env.NODE_ENV === "development") {
+    console.log("[HomeBeforeAfter] Primeira transformação:", {
+      id: items[0].id,
+      title: items[0].title,
+      beforeImage: items[0].beforeImage,
+      afterImage: items[0].afterImage,
+    });
+  }
 
   if (items.length === 0) {
     return (

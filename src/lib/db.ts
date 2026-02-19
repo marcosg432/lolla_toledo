@@ -31,6 +31,12 @@ export function readJson<T>(name: string, defaultValue: T): T {
   try {
     const fp = getFilePath(name);
     if (!fs.existsSync(fp)) return defaultValue;
+    
+    // Invalidar cache do require se existir
+    if (require.cache[fp]) {
+      delete require.cache[fp];
+    }
+    
     const raw = fs.readFileSync(fp, "utf-8");
     if (typeof raw !== "string" || raw.trim() === "") return defaultValue;
     const parsed = JSON.parse(raw) as T;
@@ -45,6 +51,22 @@ export function writeJson<T>(name: string, data: T): void {
   const fp = getFilePath(name);
   ensureDataDir();
   fs.writeFileSync(fp, JSON.stringify(data, null, 2), "utf-8");
+  // Invalidar cache após escrever
+  if (require.cache[fp]) {
+    delete require.cache[fp];
+  }
+}
+
+// Função para invalidar cache do require
+function invalidateJsonCache(name: string): void {
+  try {
+    const fp = getFilePath(name);
+    if (require.cache[fp]) {
+      delete require.cache[fp];
+    }
+  } catch {
+    // Ignorar erros
+  }
 }
 
 // Tipos
@@ -61,6 +83,8 @@ export interface Product {
   featured?: boolean;
   order: number;
   createdAt: string;
+  estoque?: number;
+  ativo?: boolean;
 }
 
 export interface Service {
@@ -169,23 +193,92 @@ function ensureArray<T>(val: unknown, fallback: T[]): T[] {
 
 /** Produtos do catálogo sempre a partir das imagens em public/cabelos. Dados extras vêm de products.json quando a imagem bate. */
 export function productsFromCabelosFolder(): Product[] {
+  // Invalidar cache antes de ler
+  invalidateJsonCache("products");
+  
   const images = listCabelosImages();
   if (images.length === 0) return [];
-  const fromJson = ensureArray(readJson<Product[]>("products", DEFAULT_PRODUCTS), DEFAULT_PRODUCTS);
-  const byImage = new Map<string, Product>();
+  
+  // Forçar leitura direta do arquivo, ignorando qualquer cache
+  const fp = getFilePath("products");
+  let fromJson: Product[] = [];
+  try {
+    if (fs.existsSync(fp)) {
+      // Invalidar cache do require
+      if (require.cache[fp]) {
+        delete require.cache[fp];
+      }
+      // Ler diretamente do arquivo
+      const raw = fs.readFileSync(fp, "utf-8");
+      if (raw && raw.trim()) {
+        const parsed = JSON.parse(raw);
+        fromJson = Array.isArray(parsed) ? parsed : [];
+      }
+    }
+  } catch (error) {
+    console.error("[productsFromCabelosFolder] Erro ao ler products.json:", error);
+    fromJson = [];
+  }
+  
+  // Criar mapa por nome base do arquivo (sem extensão) para fazer match independente da extensão
+  // Isso resolve o problema de .png no JSON vs .jpeg no sistema de arquivos
+  const byImageBase = new Map<string, Product>();
   for (const p of fromJson) {
     if (p?.image && String(p.image).startsWith("/cabelos/")) {
-      byImage.set(p.image, p as Product);
+      // Extrair nome base sem extensão (ex: "cabelo-01" de "/cabelos/cabelo-01.png")
+      const baseName = p.image.replace("/cabelos/", "").replace(/\.(png|jpg|jpeg|webp)$/i, "");
+      byImageBase.set(baseName, p as Product);
     }
   }
+  
   const base = "100% humano, selecionado e de alta qualidade. Comprimento: 60cm. Peso: 90g.";
-  return images.map((filename, i) => {
+  const produtos = images.map((filename, i) => {
     const imagePath = `/cabelos/${filename}`;
-    const existing = byImage.get(imagePath);
+    // Extrair nome base do arquivo atual (sem extensão)
+    const baseName = filename.replace(/\.(png|jpg|jpeg|webp)$/i, "");
+    const existing = byImageBase.get(baseName);
     const id = String(i + 1);
+    
     if (existing) {
-      return { ...existing, id, image: imagePath, order: i };
+      // CRÍTICO: Preservar estoque e ativo do JSON exatamente como estão
+      let estoque: number;
+      if (typeof existing.estoque === "number") {
+        estoque = existing.estoque;
+      } else if (existing.estoque !== undefined && existing.estoque !== null) {
+        estoque = Number(existing.estoque);
+      } else {
+        estoque = 0;
+      }
+      
+      let ativo: boolean;
+      if (typeof existing.ativo === "boolean") {
+        ativo = existing.ativo;
+      } else if (existing.ativo !== undefined && existing.ativo !== null) {
+        ativo = Boolean(existing.ativo);
+      } else {
+        ativo = estoque > 0;
+      }
+      
+      // Criar produto final preservando TODOS os valores do JSON, ESPECIALMENTE estoque e ativo
+      return { 
+        id: existing.id || id,
+        name: existing.name,
+        description: existing.description,
+        price: existing.price,
+        image: imagePath,
+        length: existing.length,
+        peso: existing.peso,
+        color: existing.color,
+        type: existing.type,
+        featured: existing.featured,
+        order: existing.order !== undefined ? existing.order : i,
+        createdAt: existing.createdAt,
+        estoque: estoque, // VALOR PRESERVADO DO JSON
+        ativo: ativo, // VALOR PRESERVADO DO JSON
+      } as Product;
     }
+    
+    // Produto não encontrado no JSON - criar novo
     const name = `Cabelo Premium ${String(i + 1).padStart(2, "0")}`;
     return {
       id,
@@ -198,8 +291,19 @@ export function productsFromCabelosFolder(): Product[] {
       type: "Mega Hair",
       featured: i < 3,
       order: i,
+      estoque: 0,
+      ativo: true,
       createdAt: "2024-01-01T00:00:00.000Z",
     } as Product;
+  });
+  
+  // Ordenar: produtos ativos primeiro (estoque > 0), depois inativos (estoque = 0)
+  return produtos.sort((a, b) => {
+    const aAtivo = (a.ativo !== false) && ((a.estoque || 0) > 0);
+    const bAtivo = (b.ativo !== false) && ((b.estoque || 0) > 0);
+    if (aAtivo && !bAtivo) return -1;
+    if (!aAtivo && bAtivo) return 1;
+    return (b.estoque || 0) - (a.estoque || 0);
   });
 }
 

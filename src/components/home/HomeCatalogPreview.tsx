@@ -5,6 +5,11 @@ import { ArrowRight } from "lucide-react";
 import { db } from "@/lib/db";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 
+// Forçar revalidação para garantir dados atualizados
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
+
 export async function HomeCatalogPreview() {
   const products = db.catalogProducts();
   const featured = products.filter((p) => p?.featured).slice(0, 3);
@@ -56,9 +61,17 @@ export async function HomeCatalogPreview() {
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 rounded-b-2xl border-t border-[#7B2433]/40 bg-[#3B1F1A]/95 p-6 backdrop-blur-sm">
                     <h3 className="font-playfair text-xl font-semibold text-[#C98A48]">{product.name}</h3>
-                    <p className="mt-1 text-[#E2B07E]/90">
-                      {product.price > 0 ? `R$ ${product.price.toLocaleString("pt-BR")}` : "Sob consulta"}
-                    </p>
+                    <div className="mt-1">
+                      {product.price > 0 ? (
+                        <p className="text-[#E2B07E]/90">
+                          R$ {product.price.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </p>
+                      ) : (
+                        <p className="text-sm text-[#E2B07E]/90">
+                          Preços em atualização
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </Link>
               </RevealOnScroll>

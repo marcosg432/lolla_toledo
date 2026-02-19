@@ -6,6 +6,10 @@ const nextConfig = {
       { protocol: "https", hostname: "res.cloudinary.com", pathname: "/**" },
     ],
   },
+  // Desabilitar cache para desenvolvimento
+  onDemandRevalidation: {
+    maxDuration: 60,
+  },
 };
 
 export default nextConfig;

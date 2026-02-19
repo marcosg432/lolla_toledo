@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Package, Scissors, MessageSquare, Calendar, Image, ArrowRight } from "lucide-react";
 import { db } from "@/lib/db";
+import { DashboardStats } from "@/components/admin/DashboardStats";
 
 export default function DashboardPage() {
   const products = db.products();
@@ -45,6 +46,9 @@ export default function DashboardPage() {
           </Link>
         ))}
       </div>
+
+      {/* Estatísticas e gráficos */}
+      <DashboardStats />
     </div>
   );
 }

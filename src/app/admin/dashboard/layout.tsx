@@ -8,6 +8,8 @@ import {
   MessageSquare,
   Image,
   Calendar,
+  ShoppingCart,
+  Warehouse,
 } from "lucide-react";
 import { LogoutButton } from "@/components/admin/LogoutButton";
 
@@ -21,7 +23,9 @@ export default async function DashboardLayout({
 
   const links = [
     { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { href: "/admin/dashboard/pedidos", label: "Pedidos", icon: ShoppingCart },
     { href: "/admin/dashboard/produtos", label: "Produtos", icon: Package },
+    { href: "/admin/dashboard/estoque", label: "Estoque", icon: Warehouse },
     { href: "/admin/dashboard/servicos", label: "Serviços", icon: Scissors },
     { href: "/admin/dashboard/depoimentos", label: "Depoimentos", icon: MessageSquare },
     { href: "/admin/dashboard/antese-depois", label: "Antes e Depois", icon: Image },

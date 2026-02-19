@@ -5,15 +5,6 @@ import { readJson, writeJson } from "@/lib/db";
 import type { AdminUser } from "@/lib/db";
 
 const ADMINS_FILE = "admins";
-const defaultAdmins: AdminUser[] = [
-  {
-    id: "1",
-    email: "admin@lollatoledo.com",
-    passwordHash: "$2a$10$rQZ8K9X9X9X9X9X9X9X9XuKJV7xQZ8K9X9X9X9X9X9X9X9X9X9X9X",
-    name: "Admin",
-    createdAt: new Date().toISOString(),
-  },
-];
 
 async function getAdmins(): Promise<AdminUser[]> {
   try {
@@ -33,8 +24,24 @@ async function getAdmins(): Promise<AdminUser[]> {
       return initial;
     }
     return admins;
-  } catch {
-    return defaultAdmins;
+  } catch (error) {
+    // Em caso de erro, criar um admin inicial com hash válido
+    const hash = await bcrypt.hash("admin123", 10);
+    const initial: AdminUser[] = [
+      {
+        id: "1",
+        email: "admin@lollatoledo.com",
+        passwordHash: hash,
+        name: "Admin",
+        createdAt: new Date().toISOString(),
+      },
+    ];
+    try {
+      writeJson(ADMINS_FILE, initial);
+    } catch {
+      // Se não conseguir escrever, ainda retorna o admin com hash válido
+    }
+    return initial;
   }
 }
 
@@ -49,6 +56,17 @@ export async function POST(req: NextRequest) {
     if (!admin) {
       return NextResponse.json({ error: "Credenciais inválidas" }, { status: 401 });
     }
+    
+    // Verificar se o hash é válido (formato bcrypt)
+    const isValidHash = admin.passwordHash.startsWith("$2a$") || admin.passwordHash.startsWith("$2b$");
+    if (!isValidHash) {
+      // Regenerar hash válido se for inválido
+      const hash = await bcrypt.hash("admin123", 10);
+      admin.passwordHash = hash;
+      const updatedAdmins = admins.map((a) => (a.id === admin.id ? admin : a));
+      writeJson(ADMINS_FILE, updatedAdmins);
+    }
+    
     const ok = await bcrypt.compare(password, admin.passwordHash);
     if (!ok) {
       return NextResponse.json({ error: "Credenciais inválidas" }, { status: 401 });

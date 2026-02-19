@@ -2,24 +2,24 @@
   {
     "id": "1",
     "title": "Transformação 01",
-    "beforeImage": "/cabelos/cabelo-01.png",
-    "afterImage": "/cabelos/cabelo-02.png",
+    "beforeImage": "/transformacoes/transformacao-01-depois.jpg",
+    "afterImage": "/transformacoes/transformacao-01-antes.jpg",
     "order": 0,
     "createdAt": "2024-01-01T00:00:00.000Z"
   },
   {
     "id": "2",
     "title": "Transformação 02",
-    "beforeImage": "/cabelos/cabelo-03.png",
-    "afterImage": "/cabelos/cabelo-04.png",
+    "beforeImage": "/transformacoes/transformacao-02-antes.jpg",
+    "afterImage": "/transformacoes/transformacao-02-depois.jpg",
     "order": 1,
     "createdAt": "2024-01-01T00:00:00.000Z"
   },
   {
     "id": "3",
     "title": "Transformação 03",
-    "beforeImage": "/cabelos/cabelo-05.png",
-    "afterImage": "/cabelos/cabelo-06.png",
+    "beforeImage": "/transformacoes/transformacao-03-antes.jpg",
+    "afterImage": "/transformacoes/transformacao-03-depois.jpg",
     "order": 2,
     "createdAt": "2024-01-01T00:00:00.000Z"
   }
