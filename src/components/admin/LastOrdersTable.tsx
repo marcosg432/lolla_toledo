@@ -115,14 +115,7 @@ export function LastOrdersTable({ pedidos }: LastOrdersTableProps) {
                 })()}
               </td>
               <td className="px-4 py-3">
-                {(() => {
-                  const items = Array.isArray(pedido.items)
-                    ? pedido.items
-                    : typeof pedido.items === "string"
-                    ? JSON.parse(pedido.items || "[]")
-                    : [];
-                  return <span className="text-zinc-400">-</span>;
-                })()}
+                <span className="text-zinc-400">-</span>
               </td>
               <td className="px-4 py-3 text-zinc-300">
                 R$ {pedido.total?.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || 

@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     
     // Se tiver items (novo formato), usar items
     if (body.items && Array.isArray(body.items)) {
-      const total = body.items.reduce((sum: number, item: any) => sum + (item.subtotal || 0), 0);
+      const total = body.items.reduce((sum: number, item: { subtotal?: number }) => sum + (item.subtotal || 0), 0);
       const pedido = sqliteDb.criarPedido({
         cliente: body.cliente || null,
         telefone: body.telefone || null,

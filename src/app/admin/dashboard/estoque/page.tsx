@@ -93,7 +93,7 @@ export default function EstoquePage() {
       <div className="mt-8">
         <Card className="border-zinc-800 bg-zinc-900/50">
           <CardHeader>
-            <p className="text-zinc-400">Clique em "Atualizar estoque" para editar a quantidade e status de cada produto.</p>
+            <p className="text-zinc-400">Clique em &quot;Atualizar estoque&quot; para editar a quantidade e status de cada produto.</p>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">

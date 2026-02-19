@@ -188,11 +188,11 @@ export const sqliteDb = {
 
   obterPedidos: (limit?: number): Pedido[] => {
     const db = getDb();
-    let pedidos: any[];
+    let pedidos: unknown[];
     if (limit) {
-      pedidos = db.prepare("SELECT * FROM pedidos ORDER BY id DESC LIMIT ?").all(limit) as any[];
+      pedidos = db.prepare("SELECT * FROM pedidos ORDER BY id DESC LIMIT ?").all(limit) as unknown[];
     } else {
-      pedidos = db.prepare("SELECT * FROM pedidos ORDER BY id DESC").all() as any[];
+      pedidos = db.prepare("SELECT * FROM pedidos ORDER BY id DESC").all() as unknown[];
     }
     // Parse items JSON se existir
     return pedidos.map((p) => {
@@ -209,7 +209,7 @@ export const sqliteDb = {
 
   obterPedidoPorId: (id: number): Pedido | null => {
     const db = getDb();
-    const pedido = db.prepare("SELECT * FROM pedidos WHERE id = ?").get(id) as any;
+    const pedido = db.prepare("SELECT * FROM pedidos WHERE id = ?").get(id) as unknown;
     if (!pedido) return null;
     if (pedido.items && typeof pedido.items === "string") {
       try {
@@ -229,7 +229,7 @@ export const sqliteDb = {
         : JSON.stringify(pedido.items)
       : undefined;
     const updates: string[] = [];
-    const values: any[] = [];
+    const values: unknown[] = [];
 
     if (pedido.cliente !== undefined) {
       updates.push("cliente = ?");

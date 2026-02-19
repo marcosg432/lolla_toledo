@@ -24,7 +24,7 @@ async function getAdmins(): Promise<AdminUser[]> {
       return initial;
     }
     return admins;
-  } catch (error) {
+  } catch {
     // Em caso de erro, criar um admin inicial com hash válido
     const hash = await bcrypt.hash("admin123", 10);
     const initial: AdminUser[] = [
